@@ -4,6 +4,10 @@ This is my collection of cli scripts for working with Fossil-SCM.
 
 They are a little crude, but they work. 
 
+NOTE: All my Fossil repositories have an extension of .fsl. I know it's kinda the
+standard to use .fossil but I started working with Fossil and creating
+repositories before I learned about the "standard".
+
 I symbolically link the Ticket scripts to the "$HOME/bin" directory. The files
 and the server scripts in the server directory are used for other things.
 

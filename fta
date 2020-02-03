@@ -1,0 +1,74 @@
+#!/bin/bash
+# This script is used to add a ticket to the Fossil repository
+
+echo "The default is in (), press Enter to accept."
+
+echo -n "Enter the Title : "
+read -e FOSTITLE
+if [ -z "$FOSTITLE" ]; then
+  echo "Title cannot be blank!"
+  exit
+fi
+RUNCMD="title \"$FOSTITLE$QTE\""
+
+echo "Status: Open, Verified, Review, Deferred, Fixed, Tested, and Closed"
+read -p "Enter the Status (Open): " FOSSTATUS
+FOSSTATUS=${FOSSTATUS:-Open}
+RUNCMD="$RUNCMD status $FOSSTATUS"
+
+echo "Type: Code_Example, Code_Defect, Build_Problem, Documentation, Feature_Request, and Incident"
+read -p "Enter the Type (Code_Example): " FOSTYPE
+FOSTYPE=${FOSTYPE:-Code_Example}
+RUNCMD="$RUNCMD type $FOSTYPE"
+
+echo "Severity: Important, Critical, Severe, Minor, and Cosmetic"
+read -p "Enter the Severity (Important): " FOSSEVERITY
+FOSSEVERITY=${FOSSEVERITY:-Important}
+RUNCMD="$RUNCMD severity $FOSSEVERITY"
+
+echo "Priority: Medium, Immediate, High, Low, and Zero"
+read -p "Enter the Priority (Medium): " FOSPRIORITY
+FOSPRIORITY=${FOSPRIORITY:-Medium}
+RUNCMD="$RUNCMD priority $FOSPRIORITY"
+
+echo "Resolution: Open, Fixed, Rejected, Workaround, Unable_To_Reproduce"
+echo "Works_As_Designed, External_Bug, Not_A_Bug. Duplicate, Overcome_By_Events"
+echo "Drive_By_Patch, and Misconfiguration"
+read -p "Enter the Resolution (Open): " FOSRESOLUTION
+FOSRESOLUTION=${FOSRESOLUTION:-Open}
+RUNCMD="$RUNCMD resolution $FOSRESOLUTION"
+
+echo "Subsystem: Virtual, Real or hit <enter> for no Subsystem"
+echo -n "Enter the Subsystem : "
+read -e FOSSUBSYSTEM
+if [ -z "$FOSSUBSYSTEM" ]; then
+  RUNCMD="$RUNCMD"
+else
+  RUNCMD="$RUNCMD subsystem $FOSSUBSYSTEM"
+fi
+
+echo ""
+echo -n "Enter a Contact Email : "
+read -e FOSEMAIL
+if [ -z "$FOSEMAIL" ]; then
+  RUNCMD="$RUNCMD"
+else
+  RUNCMD="$RUNCMD private_contact $FOSEMAIL"
+fi
+
+# I probably could figure out a way but...
+# If there are spaces in version, it must be surrounded by "" but then
+# it becomes "Mandatory" in order to parse out the command correctly.
+# So, with spaces: mandatory, no spaces: optional
+echo "Note: No spaces in Version!"
+echo -n "Enter the Version Found In : "
+read -e FOSVERSION
+if [ -z "$FOSVERSION" ]; then
+  RUNCMD=$RUNCMD
+else
+  RUNCMD="$RUNCMD foundin $FOSVERSION"
+fi
+
+RUNCMD="fossil ticket add $RUNCMD"
+eval $RUNCMD
+echo $RUNCMD

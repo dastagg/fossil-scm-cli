@@ -1,0 +1,3 @@
+RUNCMD="fossil ticket show 2"
+eval $RUNCMD
+# echo $RUNCMD

@@ -1,0 +1,30 @@
+#!/bin/bash
+# This script is used to quickly add a ticket to the Fossil repository
+# with the defaults used while working on a book or video
+
+RUNCMD="status Open type Code_Example severity Important priority Medium resolution Open"
+QTE=\"
+
+echo -n "Enter the Title : "
+read -e FOSTITLE
+if [ -z "$FOSTITLE" ]; then
+  echo "Title cannot be blank!"
+  exit
+fi
+
+RUNCMD="title $QTE$FOSTITLE$QTE $RUNCMD "
+
+echo "Note: No spaces in Chapter!"
+echo -n "What is the Chapter number : "
+read -e FOSVERSION
+if [ -z "$FOSVERSION" ]; then
+  RUNCMD=$RUNCMD
+else
+  RUNCMD="$RUNCMD foundin $FOSVERSION"
+fi
+
+RUNCMD="fossil ticket add $RUNCMD"
+eval $RUNCMD
+echo $RUNCMD
+
+

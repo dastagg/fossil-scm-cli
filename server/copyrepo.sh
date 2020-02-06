@@ -7,6 +7,6 @@ if [ -z "$1" ]; then
 fi
 REPO=$1
 
-mv ../upload/$REPO.fsl /var/www/fossils/
+mv ../upload/$REPO /var/www/fossils/
 
-chown www-data:www-data /var/www/fossils/$REPO.fsl
+chown www-data:www-data /var/www/fossils/$REPO
